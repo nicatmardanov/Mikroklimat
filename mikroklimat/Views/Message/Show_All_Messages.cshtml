@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Məktublar";
+}
+@using mikroklimat.Models
+
+@section nav{
+    <li><a href="/" class="page-scroll">ANA SƏHİFƏ</a></li>
+    <li><a href="/Project" class="page-scroll">LAYİHƏLƏR</a></li>
+}
+
+@section nav2{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li><a href="/Project/Add_Project">LAYİHƏ ƏLAVƏ ET</a></li>
+        <li><a href="javascript:void(0)" class="active_nav_list">GÖNDƏRİLƏN MƏKTUBLAR</a></li>
+        <li><a href="/MiklimatLogin/LogOut?redirectUrl=@this.Request.RawUrl">ÇIXIŞ</a></li>
+    }
+}
+
+<div class="container">
+    <table class="table" style="margin: 70px 0; table-layout: fixed;">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Məktub</th>
+                <th>Tarix</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @if (Model.Count > 0)
+            {
+                foreach (message msg in Model)
+                {
+                    <tr style="cursor:pointer;" data-k="@msg.id">
+                        <td style="width: 30%;" class="names">@msg.name</td>
+                        <td style="width: 65%; overflow: hidden; text-overflow:ellipsis; white-space:nowrap; " class="messages">@msg.message1</td>
+                        <td style="width: 5%; font-family: 'Open Sans'" class="dates">@msg.date.Value.ToString("dd/MM/yyyy, HH:mm")</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $('tr').click(function () {
+        var name = $(this).find('.names').html();
+        var message = $(this).find('.messages').html();
+        var date = $(this).find('.dates').html();
+
+        $.ajax({
+            type: 'get',
+            url: '/Message/MessageModal',
+            success: function (data) {
+                $('#main_sections').append(data);
+                $('#main_sections .modal-title').text(name + "; " + date);
+                $('#main_sections .modal-body>p').text(message);
+            }
+        })
+    })
+</script>

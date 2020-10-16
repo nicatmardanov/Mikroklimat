@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Ana səhifə";
+}
+
+@section nav{
+    <li><a href="javascript:void(0)" class="page-scroll active_nav_list">ANA SƏHİFƏ</a></li>
+    <li><a href="/Project" class="page-scroll">LAYİHƏLƏR</a></li>
+}
+
+@section nav2{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li><a href="/Project/Add_Project">LAYİHƏ ƏLAVƏ ET</a></li>
+        <li><a href="/Message/Show_All_Messages">GÖNDƏRİLƏN MƏKTUBLAR</a></li>
+        <li><a href="/MiklimatLogin/LogOut?redirectUrl=@this.Request.RawUrl">ÇIXIŞ</a></li>
+    }
+}
+
+
+
+<!-- About Section -->
+@{
+    Html.RenderAction("About", "Home");
+}
+
+<!-- Projects Section -->
+@{
+    Html.RenderAction("Projects", "Home");
+}
+
+<!-- Contact Section -->
+@{
+    Html.RenderAction("Send_Message", "Home");
+}
+
+@section js{
+    <script type="text/javascript" src="/Content/js/contact_mme.js"></script>
+}
+
+
+
+

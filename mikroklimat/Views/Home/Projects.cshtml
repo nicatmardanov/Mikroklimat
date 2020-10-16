@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+@using mikroklimat.Models;
+
+<div id="features" class="text-center">
+    <div class="container">
+        <div class="section-title">
+            <h2>LAYİHƏLƏRİMİZ</h2>
+        </div>
+        <div class="row">
+            @{
+                foreach (project item in Model)
+                {
+                    <div class="col-xs-12 col-sm-4">
+
+                        @if (item.image.ToList().FirstOrDefault() != null)
+                        {
+                            <a href="#lightbox" data-toggle="modal" data-id="@item.id" class="all_projects_section">
+                                <div class="features-item">
+                                    <div class="project_picts_section">
+                                        <img src="@item.image.ToList().FirstOrDefault().small_img_path" class="img-responsive" alt="@item.name">
+                                    </div>
+                                    <div class="project_title">
+                                        <h3 data-toggle="tooltip" data-placement="top" title="@item.name">@item.name</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+
+                        else
+                        {
+                            <a href="javascript:void(0)" data-id="@item.id" class="all_projects_section">
+                                <div class="features-item">
+                                    <div class="project_pictsnull_section"></div>
+                                    <div class="project_title">
+                                        <h3 data-toggle="tooltip" data-placement="top" title="@item.name">@item.name</h3>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+
+                    </div>
+
+                }
+            }
+        </div>
+        <div class="more_project">
+            <a href="/Project">Bütün layihələr</a>
+        </div>
+    </div>
+</div>
+
+@{
+    Html.RenderAction("Project_Modal", "Project");
+}

@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Layihələr";
+}
+@using mikroklimat.Models;
+
+
+
+
+@functions{
+    public string month_name(int m_number)
+    {
+        switch (m_number)
+        {
+            case 1: return "Yanvar";
+            case 2: return "Fevral";
+            case 3: return "Mart";
+            case 4: return "Aprel";
+            case 5: return "May";
+            case 6: return "İyun";
+            case 7: return "İyul";
+            case 8: return "Avqust";
+            case 9: return "Sentyabr";
+            case 10: return "Oktyabr";
+            case 11: return "Noyabr";
+            case 12: return "Dekabr";
+            default: return "Belə ay mövcud deyil!";
+        }
+    }
+}
+
+@section nav{
+    <li><a href="/" class="page-scroll">ANA SƏHİFƏ</a></li>
+    <li><a href="javascript:void(0)" class="page-scroll active_nav_list">LAYİHƏLƏR</a></li>
+}
+
+@section nav2{
+    @if (User.Identity.IsAuthenticated)
+    {
+        <li><a href="/Project/Add_Project">LAYİHƏ ƏLAVƏ ET</a></li>
+        <li><a href="/Message/Show_All_Messages">GÖNDƏRİLƏN MƏKTUBLAR</a></li>
+        <li><a href="/MiklimatLogin/LogOut?redirectUrl=@this.Request.RawUrl">ÇIXIŞ</a></li>
+    }
+}
+
+<!-- Features Section -->
+<div id="features" class="text-center">
+    <div class="container">
+        <div class="section-title">
+            <h2>LAYİHƏLƏRİMİZ</h2>
+        </div>
+        <div class="row">
+
+            @foreach (project item in Model)
+            {
+                <div class="col-xs-12 col-sm-4 project_qr_part_section">
+
+                    @if (item.image.ToList().FirstOrDefault() != null)
+                    {
+                        <a href="#lightbox" data-toggle="modal" data-id="@item.id" class="all_projects_section">
+                            <div class="features-item">
+                                <div class="project_picts_section">
+                                    <img src="@item.image.ToList().FirstOrDefault().small_img_path" class="img-responsive" alt="@item.name">
+                                </div>
+                                <div class="project_title">
+                                    <h3 data-toggle="tooltip" data-placement="top" title="@item.name">@item.name</h3>
+                                </div>
+                            </div>
+                        </a>
+                    }
+
+                    else
+                    {
+                        <a href="javascript:void(0)" data-id="@item.id" class="all_projects_section">
+                            <div class="features-item">
+                                <div class="project_pictsnull_section"></div>
+                                <div class="project_title">
+                                    <h3 data-toggle="tooltip" data-placement="top" title="@item.name">@item.name</h3>
+                                </div>
+                            </div>
+                        </a>
+                    }
+
+                </div>
+            }
+
+
+
+        </div>
+    </div>
+</div>
+
+
+@{
+            Html.RenderAction("Project_Modal", "Project");
+}
